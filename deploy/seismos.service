@@ -1,0 +1,30 @@
+# Юнит-файл systemd для СЕЙСМОС.
+# Установка: sudo cp deploy/seismos.service /etc/systemd/system/
+#            sudo systemctl daemon-reload && sudo systemctl enable --now seismos
+
+[Unit]
+Description=СЕЙСМОС — сейсмическая система контроля периметра
+Documentation=file:/opt/seismos/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=seismos
+Group=seismos
+WorkingDirectory=/opt/seismos
+Environment=SEISMOS_PORT=8000
+Environment=SEISMOS_SITE_CONFIG=config/site.yaml
+Environment=SEISMOS_DATABASE_URL=sqlite:///data/seismos.db
+ExecStart=/opt/seismos/.venv/bin/seismos serve --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=5
+
+# Ограничения безопасности
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

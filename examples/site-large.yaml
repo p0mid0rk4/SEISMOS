@@ -1,0 +1,54 @@
+# Пример конфигурации: протяжённый объект (> 800 м), две цепочки.
+# Сценарий: технологическая площадка, несколько зон, сетевые узлы сбора.
+
+name: "Технологическая площадка — протяжённый периметр"
+perimeter_length_m: 960
+
+sensors:
+  # Цепочка 1 — северная сторона
+  - {id: N01, name: "Север 0 м",    zone_id: ZN, chain_index: 0, position_m: 0}
+  - {id: N02, name: "Север 120 м",  zone_id: ZN, chain_index: 1, position_m: 120}
+  - {id: N03, name: "Север 240 м",  zone_id: ZN, chain_index: 2, position_m: 240}
+  - {id: N04, name: "Север 360 м",  zone_id: ZN, chain_index: 3, position_m: 360}
+  - {id: N05, name: "Север 480 м",  zone_id: ZN, chain_index: 4, position_m: 480}
+  # Цепочка 2 — южная сторона
+  - {id: S01, name: "Юг 0 м",       zone_id: ZS, chain_index: 0, position_m: 0}
+  - {id: S02, name: "Юг 120 м",     zone_id: ZS, chain_index: 1, position_m: 120}
+  - {id: S03, name: "Юг 240 м",     zone_id: ZS, chain_index: 2, position_m: 240}
+  - {id: S04, name: "Юг 360 м",     zone_id: ZS, chain_index: 3, position_m: 360}
+  - {id: S05, name: "Юг 480 м",     zone_id: ZS, chain_index: 4, position_m: 480}
+  # Калитки и проезды
+  - {id: G01, name: "Проезд",       zone_id: ZG, chain_index: 5, position_m: 500, kind: contact}
+  - {id: G02, name: "Калитка",      zone_id: ZG, chain_index: 6, position_m: 510, kind: contact}
+
+chains:
+  - id: CH-NORTH
+    transport: udp
+    sample_rate: 1000
+    address: "10.0.10.11:4789"
+    sensors: [N01, N02, N03, N04, N05]
+  - id: CH-SOUTH
+    transport: udp
+    sample_rate: 1000
+    address: "10.0.10.12:4789"
+    sensors: [S01, S02, S03, S04, S05, G01, G02]
+
+zones:
+  - id: ZN
+    name: "Северный участок"
+    kind: seismic
+    priority: 2
+    length_m: 480
+    description: "Протяжённое ограждение, открытая местность"
+  - id: ZS
+    name: "Южный участок"
+    kind: seismic
+    priority: 2
+    length_m: 480
+    description: "Участок вдоль подъездной дороги"
+  - id: ZG
+    name: "Проезды и калитки"
+    kind: gate
+    priority: 3
+    length_m: 20
+    description: "Контроль транспортных и людских проходов"

@@ -1,0 +1,51 @@
+# Конфигурация объекта SEISMOS
+# Описание датчиков, последовательных цепочек геофонов и зон охраны.
+name: "Демонстрационный объект SEISMOS"
+perimeter_length_m: 640
+
+# Датчики. Поле position_m — погонная координата вдоль периметра.
+sensors:
+  - {id: S01, name: "Периметр 0 м",     zone_id: Z1, chain_index: 0,  position_m: 0,   x: 0,   y: 0}
+  - {id: S02, name: "Периметр 80 м",    zone_id: Z1, chain_index: 1,  position_m: 80,  x: 80,  y: 0}
+  - {id: S03, name: "Периметр 160 м",   zone_id: Z1, chain_index: 2,  position_m: 160, x: 160, y: 0}
+  - {id: S04, name: "Периметр 240 м",   zone_id: Z2, chain_index: 3,  position_m: 240, x: 240, y: 0}
+  - {id: S05, name: "Периметр 320 м",   zone_id: Z2, chain_index: 4,  position_m: 320, x: 320, y: 0}
+  - {id: S06, name: "Периметр 400 м",   zone_id: Z2, chain_index: 5,  position_m: 400, x: 400, y: 0}
+  - {id: S07, name: "Периметр 480 м",   zone_id: Z3, chain_index: 6,  position_m: 480, x: 480, y: 0}
+  - {id: S08, name: "Периметр 560 м",   zone_id: Z3, chain_index: 7,  position_m: 560, x: 560, y: 0}
+  - {id: S09, name: "Калитка",          zone_id: ZG, chain_index: 8,  position_m: 600, x: 600, y: 0, kind: contact}
+
+# Цепочки — датчики опрашиваются последовательно один за другим.
+chains:
+  - id: CH1
+    transport: sim
+    sample_rate: 1000
+    address: "127.0.0.1:4789"
+    sensors: [S01, S02, S03, S04, S05, S06, S07, S08, S09]
+
+# Зоны охраны.
+zones:
+  - id: Z1
+    name: "Северный участок"
+    kind: seismic
+    priority: 2
+    length_m: 200
+    description: "Открытый участок вдоль основного ограждения"
+  - id: Z2
+    name: "Восточный участок"
+    kind: seismic
+    priority: 2
+    length_m: 200
+    description: "Участок с подъездной дорогой"
+  - id: Z3
+    name: "Южный участок"
+    kind: seismic
+    priority: 1
+    length_m: 160
+    description: "Участок у складов"
+  - id: ZG
+    name: "Калитка КПП"
+    kind: gate
+    priority: 3
+    length_m: 10
+    description: "Контроль прохода через калитку"

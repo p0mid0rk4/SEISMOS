@@ -1,0 +1,33 @@
+# Пример конфигурации: короткий периметр (< 100 м) с одной цепочкой.
+# Сценарий: КПП с калиткой, мягкое ограждение, есть полоса отчуждения.
+
+name: "КПП «Северный» — короткий периметр"
+perimeter_length_m: 80
+
+sensors:
+  - {id: P01, name: "Ограждение 0 м",   zone_id: ZA, chain_index: 0, position_m: 0}
+  - {id: P02, name: "Ограждение 20 м",  zone_id: ZA, chain_index: 1, position_m: 20}
+  - {id: P03, name: "Ограждение 40 м",  zone_id: ZA, chain_index: 2, position_m: 40}
+  - {id: P04, name: "Ограждение 60 м",  zone_id: ZA, chain_index: 3, position_m: 60}
+  - {id: PG1, name: "Калитка",          zone_id: ZG, chain_index: 4, position_m: 78, kind: contact}
+
+chains:
+  - id: CH1
+    transport: sim
+    sample_rate: 1000
+    address: "127.0.0.1:4789"
+    sensors: [P01, P02, P03, P04, PG1]
+
+zones:
+  - id: ZA
+    name: "Ограждение"
+    kind: seismic
+    priority: 2
+    length_m: 78
+    description: "Основное ограждение с полосой отчуждения"
+  - id: ZG
+    name: "Калитка КПП"
+    kind: gate
+    priority: 3
+    length_m: 2
+    description: "Контроль прохода"

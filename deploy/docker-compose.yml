@@ -1,0 +1,27 @@
+services:
+  seismos:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: seismos:1.0.0
+    container_name: seismos
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+      - "4789:4789/udp"
+    environment:
+      SEISMOS_PORT: "8000"
+      SEISMOS_SITE_CONFIG: "config/site.yaml"
+      SEISMOS_DATABASE_URL: "sqlite:///data/seismos.db"
+      SEISMOS_LOG_LEVEL: "INFO"
+    volumes:
+      - ../config:/app/config:ro
+      - seismos-data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  seismos-data:
