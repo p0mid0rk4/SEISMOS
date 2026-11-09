@@ -283,6 +283,7 @@ pytest
 
 | Документ | Содержание |
 |---|---|
+| [docs/DIAGRAM.md](docs/DIAGRAM.md) | Блок-схемы системы (Mermaid + PNG/SVG) |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Архитектура, потоки данных, модули |
 | [docs/DETECTION.md](docs/DETECTION.md) | Алгоритмы обнаружения и классификации |
 | [docs/HARDWARE.md](docs/HARDWARE.md) | Датчики, АЦП, узлы сбора, монтаж |
