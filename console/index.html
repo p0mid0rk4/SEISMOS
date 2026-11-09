@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>СЕЙСМОС — Консоль контроля периметра</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="/console/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <span class="pulse"></span>
+      </div>
+      <div>
+        <h1>СЕЙСМОС</h1>
+        <p class="tagline">Сейсмическая система контроля периметра · GS-20DX</p>
+      </div>
+    </div>
+    <div class="state-panel">
+      <div class="state" id="state-badge" data-state="disarmed">СНЯТО С ОХРАНЫ</div>
+      <div class="clock" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel overview">
+      <h2>Состояние системы</h2>
+      <div class="metrics" id="metrics"></div>
+      <div class="controls">
+        <button id="btn-arm" class="btn primary">Поставить на охрану</button>
+        <button id="btn-disarm" class="btn">Снять с охраны</button>
+        <button id="btn-sim" class="btn ghost">Тестовое воздействие</button>
+      </div>
+    </section>
+
+    <section class="panel perimeter">
+      <div class="panel-head">
+        <h2>Схема периметра</h2>
+        <div class="legend">
+          <span class="dot ok"></span> норма
+          <span class="dot warn"></span> предупреждение
+          <span class="dot alarm"></span> тревога
+        </div>
+      </div>
+      <div id="perimeter-map" class="map"></div>
+    </section>
+
+    <section class="panel alarms">
+      <div class="panel-head">
+        <h2>Активные тревоги</h2>
+        <span class="counter" id="alarm-counter">0</span>
+      </div>
+      <ul id="alarm-list" class="alarm-list"></ul>
+    </section>
+
+    <section class="panel events">
+      <div class="panel-head">
+        <h2>Журнал событий</h2>
+        <select id="event-filter" class="select">
+          <option value="0">Все события</option>
+          <option value="1">Предупреждения и выше</option>
+          <option value="2">Тревоги и выше</option>
+          <option value="3">Только проникновение</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="events-table">
+          <thead>
+            <tr><th>Время</th><th>Зона</th><th>Датчик</th><th>Класс</th><th>Увер.</th><th>STA/LTA</th><th>Уровень</th></tr>
+          </thead>
+          <tbody id="event-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel zones">
+      <h2>Зоны охраны</h2>
+      <div id="zone-list" class="zone-list"></div>
+    </section>
+
+    <section class="panel live">
+      <div class="panel-head">
+        <h2>Сигнал в реальном времени</h2>
+        <span class="hint" id="live-sensor">—</span>
+      </div>
+      <canvas id="live-canvas" width="800" height="180"></canvas>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>СЕЙСМОС 1.0 · протокол API Тополь-совместимый</span>
+    <span id="conn-status" class="conn">соединение…</span>
+  </footer>
+
+  <script src="/console/app.js"></script>
+</body>
+</html>
