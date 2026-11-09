@@ -64,15 +64,14 @@ bash scripts/demo.sh         # сквозная демонстрация без 
 - Целевой удалённый репозиторий — `github.com/p0mid0rk4/SEISMOS`
   (ветка по умолчанию `main`). В нём уже лежит папка «Пример КД» с образцами
   конструкторской документации — не удалять.
-- Ограничение окружения: токен (`GITHUB_TOKEN`, user-to-server `ghu_`) имеет
-  только чтение (`x-oauth-scopes` пуст). Любая запись отклоняется:
-  `git push` → 403 «Permission ... denied», создание ссылки/файла через API
-  → 403 «Resource not accessible by integration», создание PR → 403.
-  У GitHub App **0 установок**. Для публикации нужен токен с правами
-  `contents:write` и `pull_requests:write` (или установка GitHub App на
-  репозиторий).
-- Команды для публикации после выдачи прав:
+- Для записи в репозиторий GitHub App OpenHands должен быть установлен и
+  иметь доступ к `p0mid0rk4/SEISMOS` (приложение выдаёт короткоживущий токен).
+  Если `git push` возвращает 403 «Permission ... denied», проверьте установку:
+  `gh api /user/installations --jq .total_count` — должно быть больше 0.
+- Публикация: ветка `feature/<имя>` → PR в `main`:
   ```bash
   git push -u origin feature/<имя-ветки>
-  # затем PR из feature/<имя-ветки> в main
+  gh pr create --repo p0mid0rk4/SEISMOS --base main \
+    --head feature/<имя-ветки> --title "..." --body-file .github/PR_BODY.md
   ```
+- Первый PR (#1) с системой СЕЙСМОС 1.0.0 смержен в `main`.
