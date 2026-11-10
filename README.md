@@ -283,6 +283,7 @@ pytest
 
 | Документ | Содержание |
 |---|---|
+| [docs/cost/СЕЙСМОС_стоимость_и_применение.xlsx](docs/cost/) | Смета: стоимость и применение (по чекам) |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Архитектура, потоки данных, модули |
 | [docs/DETECTION.md](docs/DETECTION.md) | Алгоритмы обнаружения и классификации |
 | [docs/HARDWARE.md](docs/HARDWARE.md) | Датчики, АЦП, узлы сбора, монтаж |
